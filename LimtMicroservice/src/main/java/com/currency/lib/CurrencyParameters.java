@@ -22,11 +22,22 @@ public class CurrencyParameters {
 	private String to;
 	@Transient
 	private BigDecimal totalAmount;
-	public CurrencyParameters( String from, String to, BigDecimal totalAmount) {
+	
+	private String port;
+	public String getPort() {
+		return port;
+	}
+
+	public void setPort(String port) {
+		this.port = port;
+	}
+
+	public CurrencyParameters( String from, String to, BigDecimal totalAmount,String port) {
 		super();
 		this.from = from;
 		this.to = to;
 		this.totalAmount = totalAmount;
+		this.port = port;
 	}
 
 	public BigDecimal getTotalAmount() {

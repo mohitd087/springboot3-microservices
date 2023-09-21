@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,18 +18,25 @@ import com.currency.lib.CurrencyParameters;
 @RestController
 public class LimitCurrencyController {
 
-	
+	@Autowired
+	CurrencyServiceInterface currencyInterfaceProxy;
+	@Autowired
+	Environment env;
+
 	@Autowired
 	CurrencyExchangeDao exchangeDao;
+
 	@GetMapping("limitService/{from}/currency/{to}/{quantity}")
 	public ResponseEntity<CurrencyParameters> limitService(@PathVariable String from, @PathVariable String to,
 			@PathVariable Integer quantity) {
-			HashMap<String,String> idParameter=new HashMap<>();
-			idParameter.put("from",from);
-			idParameter.put("to", to);
-			CurrencyParameters result=new RestTemplate().getForEntity("http://localhost:8081/currencyExchange/{from}/currency/{to}",CurrencyParameters.class, idParameter).getBody();
-		
-			return new ResponseEntity<CurrencyParameters>(new CurrencyParameters(from,to,new BigDecimal(quantity).multiply(new BigDecimal(result.getConversion_amount()))),HttpStatus.OK);
+		HashMap<String, String> idParameter = new HashMap<>();
+		idParameter.put("from", from);
+		idParameter.put("to", to);
+//			CurrencyParameters result=new RestTemplate().getForEntity("http://localhost:8081/currencyExchange/{from}/currency/{to}",CurrencyParameters.class, idParameter).getBody();
+		CurrencyParameters result = currencyInterfaceProxy.exchangeServic(from, to).getBody();
+		return new ResponseEntity<CurrencyParameters>(new CurrencyParameters(from, to,
+				new BigDecimal(quantity).multiply(new BigDecimal(result.getConversion_amount())),
+				env.getProperty("local.server.port")), HttpStatus.OK);
 
 	}
 
