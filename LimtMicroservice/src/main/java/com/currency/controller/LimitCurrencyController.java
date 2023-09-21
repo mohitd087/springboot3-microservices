@@ -36,7 +36,7 @@ public class LimitCurrencyController {
 		CurrencyParameters result = currencyInterfaceProxy.exchangeServic(from, to).getBody();
 		return new ResponseEntity<CurrencyParameters>(new CurrencyParameters(from, to,
 				new BigDecimal(quantity).multiply(new BigDecimal(result.getConversion_amount())),
-				env.getProperty("local.server.port")), HttpStatus.OK);
+				result.getPort()), HttpStatus.OK);
 
 	}
 

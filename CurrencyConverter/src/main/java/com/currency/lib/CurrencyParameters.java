@@ -19,12 +19,24 @@ public class CurrencyParameters {
 	private String to;
 	@Transient
 	private BigDecimal totalAmount;
-	public CurrencyParameters( String from, String to, BigDecimal totalAmount, Integer conversion_amount) {
+	@Transient
+	private String port;
+
+	public CurrencyParameters( String from, String to, BigDecimal totalAmount, Integer conversion_amount,String port) {
 		super();
 		this.from = from;
 		this.to = to;
 		this.totalAmount = totalAmount;
 		this.conversion_amount = conversion_amount;
+		this.port=port;
+	}
+
+	public String getPort() {
+		return port;
+	}
+
+	public void setPort(String port) {
+		this.port = port;
 	}
 
 	public BigDecimal getTotalAmount() {
