@@ -17,8 +17,12 @@ public class ApiGatewayConfiguration {
 		Function<PredicateSpec, Buildable<Route>> routeFunction = p -> p.path("/get")
 				.filters(f -> f.addRequestHeader("MyHeader", "MyUrl").addRequestParameter("Param", "MyValue"))
 				.uri("http://httpbin.org:80");
-		return builder.routes().route(routeFunction)
-				.route(p -> p.path("/limitService/**").uri("lb://LIMIT-SERVICE")).build();
+		return builder.routes().route(routeFunction).route(p -> p.path("/limitService/**").uri("lb://LIMIT-SERVICE"))
+				.route(p -> p.path("/limit-new/**")
+						//This URL is also working now.
+						.filters(f -> f.rewritePath("/limit-new/(?<segment>.*)", "/limitService/${segment}"))
+						.uri("lb://LIMIT-SERVICE"))
+				.build();
 	}
 
 }
