@@ -19,7 +19,7 @@ public class ApiGatewayConfiguration {
 				.uri("http://httpbin.org:80");
 		return builder.routes().route(routeFunction).route(p -> p.path("/limitService/**").uri("lb://LIMIT-SERVICE"))
 				.route(p -> p.path("/limit-new/**")
-						//This URL is also working now.
+						//Now this link is also working - http://localhost:8765/limit-new/INR/currency/USD/100
 						.filters(f -> f.rewritePath("/limit-new/(?<segment>.*)", "/limitService/${segment}"))
 						.uri("lb://LIMIT-SERVICE"))
 				.build();
