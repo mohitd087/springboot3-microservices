@@ -6,7 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 
 @SpringBootApplication
-@ComponentScan(basePackages={"com.mohit.apiGateway.ApiGateway.globalFilter","com.mohit.apiGateway.ApiGateway"})
+@ComponentScan(basePackages={"com.mohit.apiGateway.ApiGateway.globalFilter","com.mohit.apiGateway.ApiGateway","com.eaztbytes.gatewayserver.filters","filters"})
 public class ApiGatewayApplication {
 
 	public static void main(String[] args) {
